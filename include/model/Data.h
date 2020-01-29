@@ -7,6 +7,7 @@
 
 #include <map>
 #include <utility>
+#include <Bimap.h>
 
 using Coordinate = std::pair<int,int>;
 
@@ -16,8 +17,7 @@ class Entity;
 struct Data {
     static int fieldWidth;
     static int fieldHeight;
-    static std::map<int, std::map<int, Entity*>> coordinateToEntityMapping;
-    static std::map<Entity*, Coordinate> entityToCoordinateMapping;
+    static Bimap<Entity, Coordinate> mapping;
 };
 
 #endif //POPULATIONDYNAMICS_DATA_H

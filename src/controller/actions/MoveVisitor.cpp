@@ -7,55 +7,33 @@
 #include <model/Fish.h>
 #include <model/Data.h>
 #include <random>
+#include <functional>
 
-
-bool isFree(Coordinate& coordinate) {
-    int row = std::get<ROW>(coordinate);
-    auto rowIt = Data::coordinateToEntityMapping.find(row);
-    if (rowIt == Data::coordinateToEntityMapping.end()) {
-        return true;
-    }
-    auto colIt = rowIt->second.find(std::get<COLUMN>(coordinate));
-    return colIt == rowIt->second.end();
-}
-
-std::vector<Coordinate> freeNeighbours(const Coordinate& coordinate)  {
-    auto modifyWidth = [&coordinate] (int num) {return ((num + Data::fieldHeight + std::get<ROW>(coordinate)) % Data::fieldHeight);};
-    auto modifyHeight = [&coordinate] (int num) {return ((num + Data::fieldWidth + std::get<COLUMN>(coordinate)) % Data::fieldHeight);};
-
-    Coordinate top = std::make_pair(modifyHeight(1), std::get<COLUMN>(coordinate));
-    Coordinate bottom = std::make_pair(modifyHeight(-1), std::get<COLUMN>(coordinate));
-    Coordinate left = std::make_pair(std::get<ROW>(coordinate), modifyWidth(-1));
-    Coordinate right = std::make_pair(std::get<ROW>(coordinate), modifyWidth(1));
-    std::vector<Coordinate> returnValue;
-    for (Coordinate& item : std::array<Coordinate, 4>{top, bottom, left, right}) {
-        if (isFree(item)) {
-            returnValue.push_back(item);
-        }
-    }
-    return returnValue;
-}
+//std::array<Coordinate, 4> getAllNeighbours(Coordinate& coordinate) {
+//    int row = std::get<ROW>(coordinate);
+//    int col = std::get<COLUMN>(coordinate);
+//    auto transform = [] (int value, int limit) {return (value + limit) % limit;};
+//    auto top = std::make_pair(transform(row + 1, Data::fieldHeight), col);
+//    auto bottom = std::make_pair(transform(row - 1, Data::fieldHeight), col);
+//    auto left = std::make_pair(row, transform(col - 1, Data::fieldWidth));
+//    auto right = std::make_pair(row, transform(col + 1, Data::fieldWidth));
+//    return std::array<Coordinate, 4>{top, left, right, bottom};
+//}
+//
+//std::vector<Coordinate> getNeighbours(Coordinate& coordinate,  std::function<bool(Entity& entity)> filter) {
+//    auto allNeighbours = std::move(getAllNeighbours(coordinate));
+//    std::vector<Coordinate> returnvalue;
+//    std::copy_if(std::begin(allNeighbours), std::end(allNeighbours), std::back_inserter(returnvalue), filter);
+//    return returnvalue;
+//};
 
 void move(Entity& entity) {
-    const Coordinate coordinate = Data::entityToCoordinateMapping.find(&entity)->second;
-    auto&& neighbouring = std::move(freeNeighbours(coordinate));
-    if (neighbouring.empty()) {
-        return;
-    }
-    // remove old key
-    auto rowIt = Data::coordinateToEntityMapping.find(std::get<ROW>(coordinate));
-    auto colIt = rowIt->second.find(std::get<COLUMN>(coordinate));
-    rowIt->second.erase(colIt);
-    if (rowIt->second.empty()) {
-        Data::coordinateToEntityMapping.erase(rowIt);
-    }
+    Coordinate coordinate = Data::mapping.get(entity);
+//    auto allFreeNeighbours = getNeighbours(coordinate, [](Entity& entity1) {return !Data::mapping.contains(entity1);});
+//    if (allFreeNeighbours.size() == 0) return;
+//    if (allFreeNeighbours.size() == 1) {
+//    }
 
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, neighbouring.size() - 1);
-    auto newCoordinate = neighbouring.at(dist(rng));
-    Data::coordinateToEntityMapping[std::get<ROW>(newCoordinate)][std::get<COLUMN>(newCoordinate)] = &entity;
-    Data::entityToCoordinateMapping[&entity] = newCoordinate;
 }
 
 void MoveVisitor::doIt(Shark& shark) {

@@ -12,10 +12,10 @@ int main() {
     Simulator simulator;
     simulator.enterNewEntity(shark, start);
     MoveVisitor moveVisitor;
-    for (int i = 0; i < 10; ++i) {
-        shark.act(moveVisitor);
-        auto newCoordinates = Data::entityToCoordinateMapping.find(&shark);
-        std::cout << "x: " << newCoordinates->second.first << "\t y:" << newCoordinates->second.second << std::endl;
-    }
+    //for (int i = 0; i < 10; ++i) {
+    //    shark.act(moveVisitor);
+    //    auto newCoordinates = Data::entityToCoordinateMapping.find(&shark);
+    //    std::cout << "x: " << newCoordinates->second.first << "\t y:" << newCoordinates->second.second << std::endl;
+    //}
     return 0;
 }
