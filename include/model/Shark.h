@@ -10,8 +10,8 @@
 class Shark : public Entity {
 private:
     int lifepoints;
-    int age;
 public:
+    Shark() : Entity(5) {};
     virtual void act(ActionVisitor& visitor) override;
 
     int getLifepoints() const {
@@ -22,13 +22,7 @@ public:
         lifepoints = lifepoints;
     }
 
-    int getAge() const {
-        return age;
-    }
-
-    void setAge(int age) {
-        age = age;
-    }
+    std::unique_ptr<Entity> clone() override;
 };
 
 #endif //POPULATIONDYNAMICS_SHARK_H

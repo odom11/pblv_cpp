@@ -6,4 +6,12 @@
 
 Entity::~Entity() {}
 
+int Entity::getAge() const {
+    return age;
+}
+
+void Entity::setAge(int age) {
+    Entity::age = age;
+}
+
 

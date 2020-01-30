@@ -10,7 +10,7 @@ FILE(GLOB_RECURSE sources src/*.cpp)
 
 
 
-add_executable(populationdynamics main.cpp ${sources} src/model/Shark.cpp src/model/Entity.cpp src/controller/Simulator.cpp src/model/Data.cpp include/Bimap.h)
+add_executable(populationdynamics main.cpp ${sources} )
 add_executable(test_executable test/BasicTest.cpp)
 target_include_directories(test_executable PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(test_executable ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})

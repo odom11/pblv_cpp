@@ -9,6 +9,8 @@
 #include <utility>
 #include <Bimap.h>
 
+#include <model/Entity.h>
+
 using Coordinate = std::pair<int,int>;
 
 enum coordinate {ROW, COLUMN};

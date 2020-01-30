@@ -8,7 +8,11 @@
 #include "Entity.h"
 
 class Fish : public Entity {
+public:
+    Fish() : Entity(5) {};
+    void act(ActionVisitor &visitor) override;
 
+    std::unique_ptr<Entity> clone() override;
 };
 
 #endif //POPULATIONDYNAMICS_FISH_H

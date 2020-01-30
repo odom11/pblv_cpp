@@ -1,21 +1,22 @@
 #include <iostream>
 #include <model/Data.h>
 #include <model/Shark.h>
-#include <controller/actions/MoveVisitor.h>
+#include <controller/actions/SpreadVisitor.h>
 #include <controller/Simulator.h>
 
 int main() {
     Data::fieldHeight = 3;
     Data::fieldWidth = 2;
-    auto start = std::make_pair(1, 1);
-    Shark shark;
-    Simulator simulator;
-    simulator.enterNewEntity(shark, start);
-    MoveVisitor moveVisitor;
-    //for (int i = 0; i < 10; ++i) {
-    //    shark.act(moveVisitor);
-    //    auto newCoordinates = Data::entityToCoordinateMapping.find(&shark);
-    //    std::cout << "x: " << newCoordinates->second.first << "\t y:" << newCoordinates->second.second << std::endl;
-    //}
+    SpreadVisitor moveVisitor;
+    auto sharkMngr = std::make_unique<Shark>();
+    auto shark = sharkMngr.get();
+
+    Data::mapping.insert(std::move(sharkMngr), std::make_pair(0,0));
+    for (int i = 0; i < 100; ++i) {
+        shark->act(moveVisitor);
+        Coordinate& newCoordinates = Data::mapping.get(*shark);
+
+        std::cout << "x: " << newCoordinates.first << "\t y:" << newCoordinates.second << "\t nuumber of elements: " << Data::mapping.size() << std::endl;
+    }
     return 0;
 }
