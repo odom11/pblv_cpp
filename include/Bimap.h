@@ -11,8 +11,8 @@
 #include <iostream>
 #include <map>
 #include <model/Data.h>
+#include <Coordinate.h>
 
-using Coordinate = std::pair<int,int>;
 std::ostream& operator<<(std::ostream& os, const Coordinate& coordinate);
 
 template <typename Key, typename Value>
@@ -66,6 +66,14 @@ public:
     int size() {
         assert(forward.size() == backward.size());
         return forward.size();
+    }
+
+    void remove(Key& key) {
+        assert(contains(key));
+        auto it = forward.find(&key);
+        auto jt = backward.find(it->second);
+        forward.erase(it);
+        backward.erase(jt);
     }
 };
 

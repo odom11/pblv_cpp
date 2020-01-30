@@ -10,10 +10,8 @@
 #include <Bimap.h>
 
 #include <model/Entity.h>
+#include <Coordinate.h>
 
-using Coordinate = std::pair<int,int>;
-
-enum coordinate {ROW, COLUMN};
 
 class Entity;
 struct Data {
