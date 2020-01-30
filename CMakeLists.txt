@@ -10,9 +10,14 @@ FILE(GLOB_RECURSE sources src/*.cpp)
 
 
 
-add_executable(populationdynamics main.cpp ${sources} src/controller/actions/gridtools.cpp include/Coordinate.h src/Coordinate.cpp include/controller/actions/FeedVisitor.h src/controller/actions/FeedVisitor.cpp include/controller/actions/GetEatenVisitor.h src/controller/actions/GetEatenVisitor.cpp)
+add_executable(populationdynamics main.cpp ${sources} )
+
 add_executable(test_executable test/BasicTest.cpp)
 target_include_directories(test_executable PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(test_executable ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-
 add_test(NAME test1 COMMAND test_executable)
+
+add_executable(test_feedvisitor test/controller/actions/FeedVisitorTest.cpp)
+target_include_directories(test_feedvisitor PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(test_feedvisitor ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+add_test(NAME testfeedvisitor COMMAND test_feedvisitor)

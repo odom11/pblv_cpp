@@ -20,7 +20,14 @@ void FeedVisitor::doIt(Shark &shark) {
     GetEatenVisitor getEaten(wasSatiated);
     for (auto& neighbour : filledNeighbours) {
         if (wasSatiated) break;
-        //Entity& entity = Data::mapping.get(neighbour);
+        Entity& entity = Data::mapping.get(neighbour);
+        entity.act(getEaten);
+    }
+
+    if (wasSatiated) {
+        shark.setLifepoints(shark.getLifepoints() + 1);
+    } else {
+        shark.setLifepoints(shark.getLifepoints() - 1);
     }
 }
 

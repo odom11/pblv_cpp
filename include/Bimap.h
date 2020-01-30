@@ -32,9 +32,12 @@ private:
     Map<Value, std::unique_ptr<Key>> backward;
 public:
 
+    Key& get(const Value& value) {
+        return *findInMap(value, backward);
+    }
+
     Value& get(Key& key) {
         return findInMap(&key, forward);
-        auto it = forward.find(&key);
     }
 
     bool contains(Key& key) const {
@@ -74,6 +77,11 @@ public:
         auto jt = backward.find(it->second);
         forward.erase(it);
         backward.erase(jt);
+    }
+
+    void clear() {
+        forward.clear();
+        backward.clear();
     }
 };
 
